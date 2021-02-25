@@ -25,7 +25,7 @@ app.listen(process.env.SERVER_PORT, () => {
 })
 
 // This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
-const conversationId = 'D01NLTF7TP1';
+const conversationId = '';
 
 (async () => {
   try {
