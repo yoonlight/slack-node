@@ -1,28 +1,15 @@
 import dotenv from 'dotenv';
-// import schedule from 'node-schedule'
 import { WebClient } from '@slack/web-api';
 import amqplib from 'amqplib/callback_api';
 
 dotenv.config();
-const token = process.env.SLACK_TOKEN;
-
+const env = process.env;
+const token = env.SLACK_TOKEN;
+const convoId = env.SLACK_CONVERSATION_ID;
+const rabbitMQ_URL = env.RABBITMQ_URL;
 const web = new WebClient(token);
-// This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
-const convoId = process.env.SLACK_CONVERSATION_ID;
-const text = 'Hello there';
-(async () => {
-  try {
-    // See: https://api.slack.com/methods/chat.postMessage
-    const res = await web.chat.postMessage({ channel: convoId, text: text });
 
-    // `res` contains information about the posted message
-    console.log('Message sent: ', res.ts);
-  } catch (error) {
-    console.log(error.data);
-  }
-})();
-
-amqplib.connect(process.env.RABBITMQ_URL, (error0, connection) => {
+amqplib.connect(rabbitMQ_URL, (error0, connection) => {
   if (error0) {
     throw error0;
   }
@@ -33,8 +20,26 @@ amqplib.connect(process.env.RABBITMQ_URL, (error0, connection) => {
     const queue = 'slack';
     channel.assertQueue(queue, { durable: false });
     console.log(' [*] Waiting for messages in %s. To exit press CTRL+C', queue);
-    channel.consume(queue, function (msg) {
-      console.log(' [x] Received %s', msg.content.toString());
-    });
+    channel.consume(
+      queue,
+      async function (msg) {
+        console.log(' [x] Received %s', msg.content.toString());
+        try {
+          // See: https://api.slack.com/methods/chat.postMessage
+          const res = await web.chat.postMessage({
+            channel: convoId,
+            text: msg.content.toString(),
+          });
+
+          // `res` contains information about the posted message
+          console.log('Message sent: ', res.ts);
+        } catch (error) {
+          console.log(error.data);
+        }
+      },
+      {
+        noAck: true,
+      },
+    );
   });
 });
