@@ -24,6 +24,11 @@ async function mqLoad() {
             const res = await web.chat.postMessage({
               channel: convoId,
               text: msg.content.toString(),
+              attachments: [
+                {
+                  text: msg.content.toString(),
+                },
+              ],
             });
 
             // `res` contains information about the posted message
