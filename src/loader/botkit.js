@@ -11,4 +11,4 @@ const controller = new Botkit({
   // ...other options
 });
 
-export { controller };
+export { controller, adapter };
