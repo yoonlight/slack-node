@@ -23,7 +23,21 @@ async function mqLoad() {
             // See: https://api.slack.com/methods/chat.postMessage
             const res = await web.chat.postMessage({
               channel: convoId,
-              text: msg.content.toString(),
+              blocks: [
+                {
+                  type: 'header',
+                  text: {
+                    type: 'plain_text',
+                    text: 'Todo List update',
+                    emoji: true,
+                  },
+                },
+              ],
+              attachments: [
+                {
+                  text: msg.content.toString(),
+                },
+              ],
             });
 
             // `res` contains information about the posted message
