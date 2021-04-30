@@ -1,29 +1,25 @@
 import { mqLoad } from './loader/mq';
-import { controller, adapter } from './loader/botkit';
-import express from 'express';
-import { expressLoader } from './loader/express';
-import { SlackBotWorker } from 'botbuilder-adapter-slack';
+import App from '@slack/bolt';
+
 async function load() {
   await mqLoad();
 }
 
 load();
 
-controller.on('message', async (bot, message) => {
-  await bot.reply(message, 'I heard a message!');
-});
-const port = process.env.PORTy;
-const app = express();
-expressLoader(app);
-
-app.post('/api/messages', (req, res) => {
-  adapter.processActivity(req, res, async (context) => {
-    console.log(context);
-    console.log('hello');
-    res.json(context);
-  });
+const app = new App.App({
+  token: process.env.SLACK_TOKEN,
+  signingSecret: process.env.SLACK_SIGNING_SECRET,
 });
 
-app.listen(port, () => {
-  console.log('Node Slack App listening on Port:', port);
+app.message('hello', async ({ message, say }) => {
+  // say() sends a message to the channel where the event was triggered
+  await say(`Hey there <@${message.user}>!`);
 });
+
+(async () => {
+  // Start your app
+  await app.start(process.env.PORT || 3000);
+
+  console.log('⚡️ Bolt app is running!');
+})();
