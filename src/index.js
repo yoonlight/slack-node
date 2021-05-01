@@ -1,41 +1,45 @@
 import { mqLoad } from './loader/mq';
-import botkit from './loader/botkit';
-// import express from 'express';
-// import { expressLoader } from './loader/express';
-// const app = express();
-// expressLoader(app);
+import App from '@slack/bolt';
 
-// app.listen(3002, () => {
-//   console.log('listen');
-// });
-botkit();
 async function load() {
   await mqLoad();
 }
 
 load();
 
-// app.post('/api/messages', function (req, res) {
-//   // respond to FB that the webhook has been received.
-//   res.status(200);
-//   res.send('ok');
+// Initializes your app with your bot token and signing secret
+const app = new App.App({
+  token: process.env.SLACK_TOKEN,
+  signingSecret: process.env.SLACK_SIGNING_SECRET,
+});
 
-//   var bot = controller.spawn({});
+app.message('hello', async ({ message, say }) => {
+  // say() sends a message to the channel where the event was triggered
+  await say({
+    blocks: [
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `Hey there <@${message.user}>!`,
+        },
+        accessory: {
+          type: 'button',
+          text: {
+            type: 'plain_text',
+            text: 'Click Me',
+          },
+          action_id: 'button_click',
+        },
+      },
+    ],
+    text: `Hey there <@${message.user}>!`,
+  });
+});
 
-//   // Now, pass the webhook into be processed
-//   controller.handleWebhookPayload(req, res, bot);
-// });
-// // Perform the FB webhook verification handshake with your verify token
-// app.get('/api/receive', function (req, res) {
-//   if (req.query['hub.mode'] == 'subscribe') {
-//     if (req.query['hub.verify_token'] == controller.config.verify_token) {
-//       res.send(req.query['hub.challenge']);
-//     } else {
-//       res.send('OK');
-//     }
-//   }
-// });
+(async () => {
+  // Start your app
+  await app.start(process.env.PORT || 3000);
 
-// app.get('/', function (req, res) {
-//   res.json('hello world!');
-// });
+  console.log('⚡️ Bolt app is running!');
+})();
