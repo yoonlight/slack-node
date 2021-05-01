@@ -1,7 +1,7 @@
 import { Botkit } from 'botkit';
 import { SlackAdapter } from 'botbuilder-adapter-slack';
 
-export default (app) => {
+export default () => {
   const adapter = new SlackAdapter({
     clientSigningSecret: process.env.SLACK_SIGNING_SECRET,
     botToken: process.env.SLACK_TOKEN,
@@ -9,7 +9,7 @@ export default (app) => {
 
   const controller = new Botkit({
     adapter,
-    webserver: app,
+    // webserver: app,
     // ...other options
   });
 
