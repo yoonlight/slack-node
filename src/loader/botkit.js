@@ -12,4 +12,6 @@ export default (app) => {
     webserver: app,
     // ...other options
   });
+
+  return controller;
 };
