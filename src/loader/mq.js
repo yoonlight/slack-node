@@ -57,4 +57,4 @@ async function mqLoad() {
   }
 }
 
-export { mqLoad };
+export default mqLoad;
