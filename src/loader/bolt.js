@@ -78,6 +78,7 @@ app.event('app_home_opened', async ({ event, client, context }) => {
                   type: 'plain_text',
                   text: 'Click me!',
                 },
+                action_id: 'button_click',
               },
             ],
           },
