@@ -35,3 +35,7 @@ app.get('/api/receive', function (req, res) {
     }
   }
 });
+
+app.get('/', function (req, res) {
+  res.json('hello world!');
+});
