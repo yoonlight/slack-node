@@ -37,6 +37,11 @@ app.action('button_click', async ({ ack, say }) => {
   await say('Request approved 👍');
 });
 
+app.event('app_home_opened', async ({ ack }) => {
+  ack();
+  console.log('Blah');
+});
+
 export default async () => {
   // Start your app
   await app.start(process.env.PORT || 3000);
