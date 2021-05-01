@@ -15,6 +15,7 @@ const app = new App.App({
 
 app.message('hello', async ({ message, say }) => {
   // say() sends a message to the channel where the event was triggered
+  console.log('값 받음');
   await say({
     blocks: [
       {
