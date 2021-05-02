@@ -154,6 +154,13 @@ app.shortcut('open_modal', async ({ shortcut, ack, client }) => {
   }
 });
 
+app.command('/echo', async ({ command, ack, say }) => {
+  // Acknowledge command request
+  await ack();
+
+  await say(`${command.text}`);
+});
+
 export default async () => {
   // Start your app
   await app.start(process.env.PORT || 3000);
