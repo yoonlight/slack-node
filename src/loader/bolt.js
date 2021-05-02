@@ -161,7 +161,7 @@ app.command('/echo', async ({ command, ack, say }) => {
     await ack();
 
     const result = (
-      await instance.get(`search/google/search?query=${command.command}`)
+      await instance.get(`search/google/search?query=${command.text}`)
     ).data;
 
     await say(`${result}`);
