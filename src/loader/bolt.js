@@ -159,10 +159,10 @@ app.shortcut('open_modal', async ({ shortcut, ack, client }) => {
 app.command('/echo', async ({ command, ack, say }) => {
   try {
     await ack();
-
-    const result = (
-      await instance.get(`search/google/search?query=${command.text}`)
-    ).data;
+    const query = command.text;
+    console.log(query);
+    const result = (await instance.get(`search/google/search?query=${query}`))
+      .data;
 
     await say(`${result}`);
   } catch (e) {
