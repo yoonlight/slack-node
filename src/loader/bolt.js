@@ -1,7 +1,7 @@
 import Bolt from '@slack/bolt';
 import axios from 'axios';
 
-const instance = axios.create({ baseURL: 'http://localhost:3002/api/' });
+const instance = axios.create({ baseURL: 'http://localhost:3003/api/' });
 // Initializes your app with your bot token and signing secret
 const app = new Bolt.App({
   token: process.env.SLACK_TOKEN,
@@ -160,9 +160,8 @@ app.command('/echo', async ({ command, ack, say }) => {
   try {
     await ack();
 
-    const result = (
-      await instance.get(`/search/google/search?query=${command}`)
-    ).data;
+    const result = (await instance.get(`search/google/search?query=${command}`))
+      .data;
 
     await say(`${result}`);
   } catch (e) {
