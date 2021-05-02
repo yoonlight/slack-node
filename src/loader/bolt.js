@@ -1,15 +1,12 @@
 import Bolt from '@slack/bolt';
-import axios from 'axios';
+import api from '../service';
 
-const instance = axios.create({ baseURL: 'http://localhost:3003/api/' });
-// Initializes your app with your bot token and signing secret
 const app = new Bolt.App({
   token: process.env.SLACK_TOKEN,
   signingSecret: process.env.SLACK_SIGNING_SECRET,
 });
 
 app.message('hello', async ({ message, say }) => {
-  // say() sends a message to the channel where the event was triggered
   console.log('값 받음');
   await say({
     blocks: [
@@ -160,10 +157,33 @@ app.command('/echo', async ({ command, ack, say }) => {
   try {
     await ack();
     const query = command.text;
-    console.log(query);
-    const result = await instance.get(`search/google?query=${query}`);
-    const myJSON = JSON.stringify(result.data.items);
-    await say(`${myJSON}`);
+    const result = await api.google.search(query);
+    // const myJSON = JSON.stringify(result.data.items);
+    const items = result.data.items;
+    items.forEach(async (item) => {
+      await say({
+        blocks: [
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: item.title,
+            },
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: item.link,
+            },
+          },
+        ],
+      });
+    });
+    // await say(`${myJSON}`);
   } catch (e) {
     console.log(e);
   }
