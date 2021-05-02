@@ -162,7 +162,7 @@ app.command('/echo', async ({ command, ack, say }) => {
     const query = command.text;
     console.log(query);
     const result = await instance.get(`search/google?query=${query}`);
-    const myJSON = JSON.stringify(result.data);
+    const myJSON = JSON.stringify(result.data.items);
     await say(`${myJSON}`);
   } catch (e) {
     console.log(e);
