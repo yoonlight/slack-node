@@ -29,9 +29,28 @@ const hello = async ({ message, say }) => {
     console.error(e);
   }
 };
-const message = {
+
+const block = [
+  {
+    type: 'section',
+    text: {
+      type: 'mrkdwn',
+      text: '',
+    },
+    accessory: {
+      type: 'button',
+      text: {
+        type: 'plain_text',
+        text: 'Click Me',
+      },
+      action_id: 'button_click',
+    },
+  },
+];
+const messageBlock = {
   knock,
   hello,
+  block,
 };
 
-export { message };
+export { messageBlock };

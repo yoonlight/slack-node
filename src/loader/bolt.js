@@ -1,6 +1,6 @@
 import pkg from '@slack/bolt';
 import api from '../service';
-// import { message } from '../skill';
+import { messageBlock } from '../skill';
 const { App, LogLevel } = pkg;
 class SlackApp {
   /**
@@ -43,24 +43,10 @@ class SlackApp {
     this.app.message('hello', async ({ message, say }) => {
       try {
         console.log('값 받음');
+        messageBlock.block[0].text.text = `Hey there <@${message.user}>!`;
+        const blocks = messageBlock.block;
         await say({
-          blocks: [
-            {
-              type: 'section',
-              text: {
-                type: 'mrkdwn',
-                text: `Hey there <@${message.user}>!`,
-              },
-              accessory: {
-                type: 'button',
-                text: {
-                  type: 'plain_text',
-                  text: 'Click Me',
-                },
-                action_id: 'button_click',
-              },
-            },
-          ],
+          blocks,
           text: `Hey there <@${message.user}>!`,
         });
       } catch (e) {

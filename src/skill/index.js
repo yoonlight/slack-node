@@ -21,6 +21,6 @@
 // // Listen for options requests (from select menus with an external data source)
 // app.options(actionId, fn);
 
-import { message } from './message';
+import { messageBlock } from './message';
 
-export { message };
+export { messageBlock };
