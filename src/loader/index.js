@@ -1,9 +1,10 @@
 import mqLoad from './mq';
-import boltLoad from './bolt';
+import { SlackApp } from './bolt';
 
-async function load() {
+const load = async () => {
   await mqLoad();
-  await boltLoad();
-}
+  const slack = new SlackApp();
+  await slack.listen();
+};
 
 export default load;

@@ -1,22 +1,26 @@
-app.event(eventType, fn);
+// app.event(eventType, fn);
 
-// Convenience method to listen to only `message` events using a string or RegExp
-app.message([pattern ,] fn);
+// // Convenience method to listen to only `message` events using a string or RegExp
+// app.message([pattern ,] fn);
 
-// Listen for an action from a Block Kit element (buttons, select menus, date pickers, etc)
-app.action(actionId, fn);
+// // Listen for an action from a Block Kit element (buttons, select menus, date pickers, etc)
+// app.action(actionId, fn);
 
-// Listen for dialog submissions
-app.action({ callback_id: callbackId }, fn);
+// // Listen for dialog submissions
+// app.action({ callback_id: callbackId }, fn);
 
-// Listen for a global or message shortcuts
-app.shortcut(callbackId, fn);
+// // Listen for a global or message shortcuts
+// app.shortcut(callbackId, fn);
 
-// Listen for slash commands
-app.command(commandName, fn);
+// // Listen for slash commands
+// app.command(commandName, fn);
 
-// Listen for view_submission modal events
-app.view(callbackId, fn);
+// // Listen for view_submission modal events
+// app.view(callbackId, fn);
 
-// Listen for options requests (from select menus with an external data source)
-app.options(actionId, fn);
+// // Listen for options requests (from select menus with an external data source)
+// app.options(actionId, fn);
+
+import { message } from './message';
+
+export { message };
